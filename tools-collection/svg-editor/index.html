@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG 编辑器</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .color-picker::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        .color-picker::-webkit-color-swatch {
+            border: none;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <h1 class="text-xl font-bold text-gray-800">工具集合</h1>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="../image-compressor/index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            图片压缩工具
+                        </a>
+                        <a href="../svg-editor/index.html" class="border-primary-500 text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" aria-current="page">
+                            SVG 编辑器
+                        </a>
+                        <a href="../image-generator/index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            AI 图像生成器
+                        </a>
+                        <a href="../index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            全部工具
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <button type="button" class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        <span class="sr-only">查看通知</span>
+                        <i class="fa-solid fa-bell"></i>
+                    </button>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-expanded="false">
+                        <span class="sr-only">打开主菜单</span>
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="../image-compressor/index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    图片压缩工具
+                </a>
+                <a href="../svg-editor/index.html" class="bg-primary-50 border-primary-500 text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium" aria-current="page">
+                    SVG 编辑器
+                </a>
+                <a href="../image-generator/index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    AI 图像生成器
+                </a>
+                <a href="../index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    全部工具
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">SVG 编辑器</h1>
+            <p class="mt-2 text-gray-600">上传 SVG 文件或输入代码，自定义颜色和尺寸，然后导出</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Input Section -->
+            <div class="lg:col-span-6 bg-white shadow-md rounded-lg p-6">
+                <div class="mb-6">
+                    <h2 class="text-xl font-medium text-gray-900 mb-3">
+                        <i class="fa-solid fa-arrow-up-from-bracket text-primary-500 mr-2"></i>上传 SVG
+                    </h2>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-primary-500 transition duration-300" id="dropArea">
+                        <input type="file" id="svgFileInput" class="hidden" accept=".svg">
+                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 mb-3"></i>
+                        <p class="text-sm text-gray-500">拖放 SVG 文件到这里或<span class="text-primary-600 font-medium ml-1" id="browseBtn">浏览文件</span></p>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h2 class="text-xl font-medium text-gray-900 mb-3">
+                        <i class="fa-solid fa-code text-primary-500 mr-2"></i>SVG 代码
+                    </h2>
+                    <textarea id="svgCode" class="w-full h-64 border border-gray-300 rounded-md p-3 focus:ring-primary-500 focus:border-primary-500" placeholder="在这里粘贴您的 SVG 代码..."></textarea>
+                    <button id="applySvgCode" class="mt-2 bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-300">
+                        <i class="fa-solid fa-check mr-2"></i>应用代码
+                    </button>
+                </div>
+            </div>
+
+            <!-- Customization & Preview Section -->
+            <div class="lg:col-span-6 bg-white shadow-md rounded-lg p-6">
+                <div class="mb-6">
+                    <h2 class="text-xl font-medium text-gray-900 mb-3">
+                        <i class="fa-solid fa-palette text-primary-500 mr-2"></i>自定义 SVG
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">填充颜色</label>
+                            <div class="flex items-center">
+                                <input type="color" id="fillColor" class="color-picker w-10 h-10 rounded-md border border-gray-300 mr-2">
+                                <input type="text" id="fillColorText" class="flex-1 border border-gray-300 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500" placeholder="#000000">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">边框颜色</label>
+                            <div class="flex items-center">
+                                <input type="color" id="strokeColor" class="color-picker w-10 h-10 rounded-md border border-gray-300 mr-2">
+                                <input type="text" id="strokeColorText" class="flex-1 border border-gray-300 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500" placeholder="#000000">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">边框宽度</label>
+                            <div class="flex items-center">
+                                <input type="range" id="strokeWidth" min="0" max="10" step="0.5" class="flex-1 mr-2">
+                                <span id="strokeWidthValue" class="text-gray-700 font-medium w-10 text-center">1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h2 class="text-xl font-medium text-gray-900 mb-3">
+                        <i class="fa-solid fa-arrows-left-right-to-line text-primary-500 mr-2"></i>调整尺寸
+                    </h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">宽度 (px)</label>
+                            <input type="number" id="svgWidth" class="w-full border border-gray-300 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500" placeholder="宽度">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">高度 (px)</label>
+                            <input type="number" id="svgHeight" class="w-full border border-gray-300 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500" placeholder="高度">
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="flex items-center text-sm font-medium text-gray-700 mb-1">
+                            <input type="checkbox" id="maintainAspectRatio" class="mr-2" checked>
+                            保持原比例
+                        </label>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">按比例缩放</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="size-preset px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm" data-scale="0.125">缩小到 1/8</button>
+                            <button class="size-preset px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm" data-scale="0.25">缩小到 1/4</button>
+                            <button class="size-preset px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm" data-scale="0.5">缩小到 1/2</button>
+                            <button class="size-preset px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm" data-scale="1">原始大小</button>
+                            <button class="size-preset px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm" data-scale="2">放大到 2x</button>
+                            <button class="size-preset px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm" data-scale="4">放大到 4x</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-medium text-gray-900 mb-3">
+                        <i class="fa-solid fa-eye text-primary-500 mr-2"></i>预览
+                    </h2>
+                    <div class="border border-gray-300 rounded-md p-4 flex items-center justify-center bg-gray-50 overflow-auto max-h-[300px]" id="previewContainer">
+                        <p class="text-gray-500 text-center" id="noPreviewText">上传或输入 SVG 代码以查看预览</p>
+                        <div id="svgPreview" class="hidden"></div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button id="downloadSvg" class="bg-secondary-600 hover:bg-secondary-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition duration-300">
+                            <i class="fa-solid fa-download mr-2"></i>下载 SVG
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mt-8 bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-medium text-gray-900 mb-3">
+                <i class="fa-solid fa-circle-info text-primary-500 mr-2"></i>使用说明
+            </h2>
+            <div class="prose prose-blue max-w-none">
+                <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                    <li>通过拖放或浏览文件上传 SVG 文件，或直接在代码框中粘贴 SVG 代码</li>
+                    <li>使用颜色选择器调整 SVG 的填充颜色和边框颜色，颜色变更会实时预览</li>
+                    <li>调整边框宽度以改变 SVG 的外观，变更会实时显示</li>
+                    <li>使用尺寸控件设置 SVG 的宽度和高度，选中"保持原比例"以确保比例一致</li>
+                    <li>使用按比例缩放按钮快速缩放 SVG 到原始尺寸的不同比例</li>
+                    <li>在预览区域查看您的更改效果，大尺寸图片可以滚动查看</li>
+                    <li>满意后，点击"下载 SVG"按钮保存您的自定义 SVG 文件</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white mt-12 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-gray-500 text-sm">© 2024 工具集合. 所有SVG编辑在浏览器中完成，确保您的隐私安全.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

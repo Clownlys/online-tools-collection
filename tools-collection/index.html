@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线工具集合</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <h1 class="text-xl font-bold text-gray-800">工具集合</h1>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="image-compressor/index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            图片压缩工具
+                        </a>
+                        <a href="svg-editor/index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            SVG 编辑器
+                        </a>
+                        <a href="image-generator/index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            AI 图像生成器
+                        </a>
+                        <a href="index.html" class="border-primary-500 text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" aria-current="page">
+                            全部工具
+                        </a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-expanded="false">
+                        <span class="sr-only">打开主菜单</span>
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="image-compressor/index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    图片压缩工具
+                </a>
+                <a href="svg-editor/index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    SVG 编辑器
+                </a>
+                <a href="image-generator/index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    AI 图像生成器
+                </a>
+                <a href="index.html" class="bg-primary-50 border-primary-500 text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium" aria-current="page">
+                    全部工具
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">在线工具集合</h1>
+            <p class="mt-2 text-gray-600">一系列便捷的在线工具，满足您的各种需求</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Tool Card 1: Image Compression -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="bg-primary-600 p-4 text-white text-center">
+                    <i class="fa-solid fa-image text-4xl mb-2"></i>
+                    <h3 class="text-xl font-semibold">图片尺寸压缩工具</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-4">上传图片，自动生成多种尺寸，支持自定义尺寸，拥有现代UI界面和批量下载功能。</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-xs text-gray-500"><i class="fa-solid fa-code mr-1"></i>TailwindCSS, JS</span>
+                        <a href="image-compressor/index.html" class="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-300">
+                            使用工具
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool Card 2: SVG Editor -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="bg-secondary-500 p-4 text-white text-center">
+                    <i class="fa-solid fa-bezier-curve text-4xl mb-2"></i>
+                    <h3 class="text-xl font-semibold">SVG 编辑器</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-4">上传 SVG 文件或输入代码，自定义颜色和尺寸，并下载修改后的 SVG 文件。</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-xs text-gray-500"><i class="fa-solid fa-code mr-1"></i>HTML, TailwindCSS, JS</span>
+                        <a href="svg-editor/index.html" class="bg-secondary-600 hover:bg-secondary-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition duration-300">
+                            使用工具
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool Card 3: AI Image Generator -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="bg-indigo-600 p-4 text-white text-center">
+                    <i class="fa-solid fa-wand-magic-sparkles text-4xl mb-2"></i>
+                    <h3 class="text-xl font-semibold">AI 图像生成器</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-4">使用 Grok API 通过文本提示生成高质量 AI 图像，支持多图生成和即时预览。</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-xs text-gray-500"><i class="fa-solid fa-code mr-1"></i>TailwindCSS, API 集成</span>
+                        <a href="image-generator/index.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300">
+                            使用工具
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="mt-16">
+            <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">为什么选择我们的工具？</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-lock text-primary-500 text-2xl mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">隐私保护</h3>
+                    </div>
+                    <p class="text-gray-600">所有工具都在浏览器内运行，您的数据不会发送到任何服务器，确保您的隐私安全。</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-bolt text-primary-500 text-2xl mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">快速高效</h3>
+                    </div>
+                    <p class="text-gray-600">工具使用现代技术构建，处理速度快，无需等待上传下载时间，即时获得结果。</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-mobile-screen text-primary-500 text-2xl mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">响应式设计</h3>
+                    </div>
+                    <p class="text-gray-600">所有工具均支持桌面端和移动端，随时随地使用，为您提供便捷的体验。</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white mt-12 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-gray-500 text-sm">© 2024 工具集合. 所有工具在浏览器中完成，确保您的隐私安全.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片尺寸压缩工具</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <h1 class="text-xl font-bold text-gray-800">工具集合</h1>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="../image-compressor/index.html" class="border-primary-500 text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" aria-current="page">
+                            图片压缩工具
+                        </a>
+                        <a href="../svg-editor/index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            SVG 编辑器
+                        </a>
+                        <a href="../image-generator/index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            AI 图像生成器
+                        </a>
+                        <a href="../index.html" class="border-transparent text-gray-500 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            全部工具
+                        </a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-expanded="false">
+                        <span class="sr-only">打开主菜单</span>
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="../image-compressor/index.html" class="bg-primary-50 border-primary-500 text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium" aria-current="page">
+                    图片压缩工具
+                </a>
+                <a href="../svg-editor/index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    SVG 编辑器
+                </a>
+                <a href="../image-generator/index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    AI 图像生成器
+                </a>
+                <a href="../index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-primary-500 hover:text-primary-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    全部工具
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">图片尺寸压缩工具</h1>
+            <p class="mt-2 text-gray-600">上传图片，自动生成16x16、32x32、48x48和128x128四种尺寸</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Input Section -->
+            <div class="lg:col-span-5 bg-white shadow-md rounded-lg p-6">
+                <div class="mb-6">
+                    <h2 class="text-xl font-medium text-gray-900 mb-3">
+                        <i class="fa-solid fa-arrow-up-from-bracket text-primary-500 mr-2"></i>上传图片
+                    </h2>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-primary-500 transition duration-300" id="dropArea">
+                        <input type="file" id="fileInput" class="hidden" accept=".jpg,.jpeg,.png">
+                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 mb-3"></i>
+                        <p class="text-sm text-gray-500">拖放图片到这里或<span class="text-primary-600 font-medium ml-1" id="browseBtn">浏览文件</span></p>
+                        <p class="file-types text-xs text-gray-400 mt-2">支持 JPG、PNG 格式</p>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h2 class="text-xl font-medium text-gray-900 mb-3">
+                        <i class="fa-solid fa-sliders text-primary-500 mr-2"></i>图片质量
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">压缩质量</label>
+                            <div class="flex items-center">
+                                <input type="range" id="compressionQuality" min="0" max="1" step="0.1" value="0.9" class="flex-1 mr-2">
+                                <span id="qualityValue" class="text-gray-700 font-medium w-10 text-center">90%</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">较高的质量会产生更大的文件，较低的质量会减小文件大小但可能导致失真</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-medium text-gray-900 mb-3">
+                        <i class="fa-solid fa-circle-info text-primary-500 mr-2"></i>使用说明
+                    </h2>
+                    <div class="prose prose-blue max-w-none">
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600 text-sm">
+                            <li>上传一张JPG或PNG格式的图片</li>
+                            <li>系统自动生成四种不同尺寸的图片预览</li>
+                            <li>调整压缩质量以获得理想的效果</li>
+                            <li>单独下载或批量下载所有压缩后的图片</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview & Download Section -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <h2 class="text-xl font-medium text-gray-900 mb-4">
+                        <i class="fa-solid fa-image text-primary-500 mr-2"></i>原始图片
+                    </h2>
+                    <div id="originalImageContainer" class="hidden">
+                        <div class="flex flex-col items-center justify-center border border-gray-300 rounded-md p-4 bg-gray-50 min-h-[200px] mb-4">
+                            <img id="originalImage" src="#" alt="原始图片" class="max-w-full max-h-[300px] mb-2">
+                            <p id="originalSize" class="text-sm text-gray-700"></p>
+                        </div>
+                    </div>
+                    <div id="noImageText" class="flex items-center justify-center border border-gray-300 rounded-md p-10 bg-gray-50 min-h-[200px]">
+                        <p class="text-gray-500 text-center">上传图片以查看预览</p>
+                    </div>
+                </div>
+
+                <div id="previewContainer" class="bg-white shadow-md rounded-lg p-6 hidden">
+                    <h2 class="text-xl font-medium text-gray-900 mb-4">
+                        <i class="fa-solid fa-compress text-primary-500 mr-2"></i>压缩后的图片
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                        <div class="preview-item">
+                            <div class="flex flex-col items-center border border-gray-300 rounded-lg p-4 bg-gray-50 min-h-[150px]">
+                                <div class="preview-box flex items-center justify-center mb-2">
+                                    <canvas id="canvas16" width="16" height="16" class="border border-gray-300" style="width: 64px; height: 64px;"></canvas>
+                                </div>
+                                <p class="text-center text-gray-700 font-medium">16 x 16</p>
+                                <p id="size16" class="text-xs text-gray-500 mb-3"></p>
+                                <button class="download-btn bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-300" data-size="16">
+                                    <i class="fa-solid fa-download mr-2"></i>下载
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-item">
+                            <div class="flex flex-col items-center border border-gray-300 rounded-lg p-4 bg-gray-50 min-h-[150px]">
+                                <div class="preview-box flex items-center justify-center mb-2">
+                                    <canvas id="canvas32" width="32" height="32" class="border border-gray-300" style="width: 64px; height: 64px;"></canvas>
+                                </div>
+                                <p class="text-center text-gray-700 font-medium">32 x 32</p>
+                                <p id="size32" class="text-xs text-gray-500 mb-3"></p>
+                                <button class="download-btn bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-300" data-size="32">
+                                    <i class="fa-solid fa-download mr-2"></i>下载
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-item">
+                            <div class="flex flex-col items-center border border-gray-300 rounded-lg p-4 bg-gray-50 min-h-[150px]">
+                                <div class="preview-box flex items-center justify-center mb-2">
+                                    <canvas id="canvas48" width="48" height="48" class="border border-gray-300" style="width: 96px; height: 96px;"></canvas>
+                                </div>
+                                <p class="text-center text-gray-700 font-medium">48 x 48</p>
+                                <p id="size48" class="text-xs text-gray-500 mb-3"></p>
+                                <button class="download-btn bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-300" data-size="48">
+                                    <i class="fa-solid fa-download mr-2"></i>下载
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-item">
+                            <div class="flex flex-col items-center border border-gray-300 rounded-lg p-4 bg-gray-50 min-h-[150px]">
+                                <div class="preview-box flex items-center justify-center mb-2">
+                                    <canvas id="canvas128" width="128" height="128" class="border border-gray-300" style="width: 128px; height: 128px;"></canvas>
+                                </div>
+                                <p class="text-center text-gray-700 font-medium">128 x 128</p>
+                                <p id="size128" class="text-xs text-gray-500 mb-3"></p>
+                                <button class="download-btn bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-300" data-size="128">
+                                    <i class="fa-solid fa-download mr-2"></i>下载
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <button id="downloadAll" class="bg-secondary-600 hover:bg-secondary-700 text-white font-medium py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition duration-300">
+                            <i class="fa-solid fa-download mr-2"></i>批量下载所有图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Sizes Section -->
+        <div id="additionalSizesContainer" class="mt-8 bg-white shadow-md rounded-lg p-6 hidden">
+            <h2 class="text-xl font-medium text-gray-900 mb-4">
+                <i class="fa-solid fa-plus text-primary-500 mr-2"></i>自定义尺寸
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">宽度 (px)</label>
+                    <input type="number" id="customWidth" class="w-full border border-gray-300 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500" placeholder="宽度">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">高度 (px)</label>
+                    <input type="number" id="customHeight" class="w-full border border-gray-300 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500" placeholder="高度">
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button id="generateCustomSize" class="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-300">
+                    <i class="fa-solid fa-check mr-2"></i>生成自定义尺寸
+                </button>
+            </div>
+            <div id="customPreviewContainer" class="mt-6 hidden">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">自定义尺寸预览</h3>
+                <div class="flex flex-col items-center border border-gray-300 rounded-lg p-4 bg-gray-50 max-w-sm mx-auto">
+                    <div class="preview-box flex items-center justify-center mb-2">
+                        <canvas id="canvasCustom" class="border border-gray-300"></canvas>
+                    </div>
+                    <p id="customSizeLabel" class="text-center text-gray-700 font-medium"></p>
+                    <p id="sizeCustom" class="text-xs text-gray-500 mb-3"></p>
+                    <button id="downloadCustom" class="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-300">
+                        <i class="fa-solid fa-download mr-2"></i>下载自定义尺寸
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white mt-12 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-gray-500 text-sm">© 2024 工具集合. 所有图片处理在浏览器中完成，确保您的隐私安全.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
