@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "name": "online-tools-collection",
+  "builds": [
+    { "src": "**/*.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/tools-collection", "dest": "/tools-collection/index.html" },
+    { "src": "/tools-collection/image-compressor", "dest": "/tools-collection/image-compressor/index.html" },
+    { "src": "/tools-collection/svg-editor", "dest": "/tools-collection/svg-editor/index.html" },
+    { "src": "/tools-collection/image-generator", "dest": "/tools-collection/image-generator/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+} 
